@@ -16,3 +16,17 @@ function collisionDetector(box)
         numberPressed = box.value;
     }
 }
+
+function operatorDetector(box)
+{
+    //The Player and the collider both need to be Arrays.
+    //for(i=0;i<box.length;i++)
+    //{
+    if(box.posX  <= mouseX && mouseX <= box.posX + box.w &&
+      box.posY <= mouseY && mouseY <= box.posY + box.h)
+    {
+        //console.log("Colided");
+        currOperator = box.value;
+        console.log(currOperator);
+    }
+}

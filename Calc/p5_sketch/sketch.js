@@ -8,7 +8,6 @@ let currValue="";
 let totalValue="";
 let currOperator;
 let operatorButtons;
-let boolClicked = false;
 
 
 function setup()
@@ -44,20 +43,40 @@ function setup()
 function draw()
 {
     
-    //this command clears the background to black (try changing the numbers)
+//this command clears the background to black (try changing the numbers)
     
-    background(255,255,255);
+background(255,255,255);
     
+strokeWeight(1);
+//gridLines();
+   
+drawTheResultsBar();
     
-    strokeWeight(1);
-    //gridLines();
+drawNumberButtons();
+
+drawTheOperators();    
     
-    //change the fill color
+checkMouseIsOverWhichNumber();
+checkMouseIsOverWhichOperator();
     
-    //Draw the Results Bar
-   fill(100,100,100); rect(calculatorResultsBar.posX,calculatorResultsBar.posY,calculatorResultsBar.w,calculatorResultsBar.h);
-    rect(calculatorCurrentValBar.posX,calculatorCurrentValBar.posY,calculatorCurrentValBar.w,calculatorCurrentValBar.h);
+drawCurrentValueBar();
     
+}
+
+function mouseClicked()
+{
+    currValue = currValue.toString() + numberPressed.toString();
+    if(currOperator=="+")
+        {
+            parseInt(totalValue) += 10;
+            console.log(totalValue);
+            currValue="";
+            currOperator=null;
+        }
+}
+
+function drawNumberButtons()
+{
     //Draw the Numbers
     fill(255,0,0);
     for(let i = 0; i < calculatorBoxes.length; i ++){
@@ -66,35 +85,55 @@ function draw()
         textAlign(CENTER);
         text(calculatorBoxes[i].value,calculatorBoxes[i].posX+calculatorBoxes[i].w/2,calculatorBoxes[i].posY+calculatorBoxes[i].h/2);
     }
-    
-    //Draw the Operators
-    fill(255,0,0);
-    for(let i = 0; i < operatorButtons.length; i ++){
-       fill(255,0,0); rect(operatorButtons[i].posX,operatorButtons[i].posY,operatorButtons[i].w,operatorButtons[i].h);
-        fill(255,255,255);
-        textAlign(CENTER);
-        text(operatorButtons[i].value,operatorButtons[i].posX+operatorButtons[i].w/2,operatorButtons[i].posY+operatorButtons[i].h/2);
-    }
-    
+}
+
+function checkMouseIsOverWhichNumber()
+{
     //Check for Collision on Numbers
     for(let i = 0; i < calculatorBoxes.length; i ++){
         collisionDetector(calculatorBoxes[i]);
         //console.log(calculatorBoxes[i].posX);
         
     }
-    
-    if(mouseIsPressed==true){
-     //console.log(mouseX);   
-    }
-    
-    fill(255,255,255); text(currValue,calculatorCurrentValBar.posX+calculatorCurrentValBar.w/2,calculatorCurrentValBar.posY + calculatorCurrentValBar.h/2);
-    
 }
 
-function mouseClicked(){
-    //if(mouseButton === LEFT){
-    currValue = currValue.toString() + numberPressed.toString();
-    console.log(currValue);   
-    //}
- 
+function checkMouseIsOverWhichOperator()
+{
+    //Check for Collision on Numbers
+    for(let i = 0; i < operatorButtons.length; i ++){
+        operatorDetector(operatorButtons[i]);
+        //console.log(calculatorBoxes[i].posX);
+        
+    }
+}
+
+
+function drawTheOperators()
+{
+    fill(255,0,0);
+    for(let i = 0; i < operatorButtons.length; i ++)
+    {
+       fill(255,0,0); rect(operatorButtons[i].posX,operatorButtons[i].posY,operatorButtons[i].w,operatorButtons[i].h);
+        fill(255,255,255);
+        textAlign(CENTER);
+        text(operatorButtons[i].value,operatorButtons[i].posX+operatorButtons[i].w/2,operatorButtons[i].posY+operatorButtons[i].h/2);
+    }
+}
+
+function drawTheResultsBar()
+{
+      //Draw the Results Bar
+   fill(100,100,100); rect(calculatorResultsBar.posX,calculatorResultsBar.posY,calculatorResultsBar.w,calculatorResultsBar.h);
+    
+    fill(255,255,255);
+    text(totalValue,calculatorResultsBar.posX+calculatorResultsBar.w/2,calculatorResultsBar.posY + calculatorResultsBar.h/2);
+}
+
+function drawCurrentValueBar()
+{
+     fill(100,100,100);
+         rect(calculatorCurrentValBar.posX,calculatorCurrentValBar.posY,calculatorCurrentValBar.w,calculatorCurrentValBar.h);
+    
+    fill(255,255,255);
+    text(currValue,calculatorCurrentValBar.posX+calculatorCurrentValBar.w/2,calculatorCurrentValBar.posY + calculatorCurrentValBar.h/2); 
 }
